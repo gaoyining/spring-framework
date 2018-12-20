@@ -16,17 +16,8 @@
 
 package org.springframework.context.annotation;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
@@ -53,13 +44,13 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Indexed;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.*;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.util.*;
 
 /**
  * A component provider that provides candidate components from a base package. Can
@@ -73,6 +64,13 @@ import org.springframework.util.ClassUtils;
  * <p>This implementation is based on Spring's
  * {@link org.springframework.core.type.classreading.MetadataReader MetadataReader}
  * facility, backed by an ASM {@link org.springframework.asm.ClassReader ClassReader}.
+ *
+ * 从基础包提供候选组件的组件提供程序。 如果可以使用{@link CandidateComponentsIndex the index}，
+ * 则可以使用类路径扫描。 通过应用排除和包含过滤器来识别候选组件。 支持{@link AnnotationTypeFilter}，
+ * {@link AssignableTypeFilter}包含使用{@link Indexed}注释的注释/超类的过滤器：如果指定了任何其他包含过滤器，
+ * 则忽略索引并使用类路径扫描。
+ * <p>此实现基于Spring的{@link org.springframework.core.type.classreading.MetadataReader MetadataReader}工具，
+ * 由ASM {@link org.springframework.asm.ClassReader ClassReader}支持。
  *
  * @author Mark Fisher
  * @author Juergen Hoeller

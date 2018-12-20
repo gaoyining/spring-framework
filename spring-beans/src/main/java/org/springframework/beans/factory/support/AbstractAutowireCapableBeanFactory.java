@@ -494,6 +494,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 	@Override
 	public void destroyBean(Object existingBean) {
+		// ---------------关键方法------------------
+		// 销毁给定的bean
 		new DisposableBeanAdapter(existingBean, getBeanPostProcessors(), getAccessControlContext()).destroy();
 	}
 
@@ -1797,6 +1799,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * as well as init methods and bean post processors.
 	 * <p>Called from {@link #createBean} for traditionally defined beans,
 	 * and from {@link #initializeBean} for existing bean instances.
+	 *
+	 * 初始化给定的bean实例，应用工厂回调以及init方法和bean后处理器。
+	 * <p>从{@link #createBean}调用传统定义的bean，从{@link #initializeBean}调用现有bean实例。
+	 *
 	 * @param beanName the bean name in the factory (for debugging purposes)
 	 * @param bean the new bean instance we may need to initialize
 	 * @param mbd the bean definition that the bean was created with

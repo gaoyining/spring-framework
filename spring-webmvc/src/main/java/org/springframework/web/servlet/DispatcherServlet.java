@@ -160,6 +160,9 @@ public class DispatcherServlet extends FrameworkServlet {
 	/**
 	 * Well-known name for the HandlerMapping object in the bean factory for this namespace.
 	 * Only used when "detectAllHandlerMappings" is turned off.
+	 *
+	 * 此命名空间的Bean工厂中HandlerMapping对象的已知名称。 仅在“detectAllHandlerMappings”关闭时使用。
+	 *
 	 * @see #setDetectAllHandlerMappings
 	 */
 	public static final String HANDLER_MAPPING_BEAN_NAME = "handlerMapping";
@@ -609,6 +612,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			if (!matchingBeans.isEmpty()) {
 				this.handlerMappings = new ArrayList<>(matchingBeans.values());
 				// We keep HandlerMappings in sorted order.
+				// 我们按顺序排列HandlerMappings。
 				AnnotationAwareOrderComparator.sort(this.handlerMappings);
 			}
 		}

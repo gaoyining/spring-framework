@@ -16,10 +16,6 @@
 
 package org.springframework.context.annotation;
 
-import java.beans.Introspector;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -30,6 +26,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
+
+import java.beans.Introspector;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * {@link org.springframework.beans.factory.support.BeanNameGenerator}
@@ -83,6 +83,10 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 	 * Derive a bean name from one of the annotations on the class.
 	 * @param annotatedDef the annotation-aware bean definition
 	 * @return the bean name, or {@code null} if none is found
+	 *
+	 * 从类中的一个注释派生bean名称。
+	 * @param annotatedDef 注释感知bean定义
+	 * @return bean名称，如果没有找到，则返回{@code null}
 	 */
 	@Nullable
 	protected String determineBeanNameFromAnnotation(AnnotatedBeanDefinition annotatedDef) {
@@ -115,6 +119,12 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 	 * @param metaAnnotationTypes the names of meta-annotations on the given annotation
 	 * @param attributes the map of attributes for the given annotation
 	 * @return whether the annotation qualifies as a stereotype with component name
+	 *
+	 * 检查给定的注释是否是允许通过其注释{@code value（）}建议组件名称的构造型。
+	 * @param annotationType 要检查的注释类的名称
+	 * @param metaAnnotation 在给定注释上定义元注释的名称
+	 * @param attributes 给定注释的属性映射
+	 * @return 注释是否有资格作为具有组件名称的构造型
 	 */
 	protected boolean isStereotypeWithNameValue(String annotationType,
 			Set<String> metaAnnotationTypes, @Nullable Map<String, Object> attributes) {

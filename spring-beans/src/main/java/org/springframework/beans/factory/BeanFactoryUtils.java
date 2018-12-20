@@ -16,18 +16,14 @@
 
 package org.springframework.beans.factory;
 
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.BeansException;
 import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import java.lang.annotation.Annotation;
+import java.util.*;
 
 /**
  * Convenience methods operating on bean factories, in particular
@@ -166,6 +162,13 @@ public abstract class BeanFactoryUtils {
 	 * the raw FactoryBean itself will be matched against the type.
 	 * <p>This version of {@code beanNamesForTypeIncludingAncestors} automatically
 	 * includes prototypes and FactoryBeans.
+	 *
+	 * 获取给定类型的所有bean名称，包括在祖先工厂中定义的名称。 在重写bean定义的情况下将返回唯一名称。
+	 * <p>考虑FactoryBeans创建的对象，这意味着FactoryBeans将被初始化。
+	 * 如果FactoryBean创建的对象不匹配，则原始FactoryBean本身将与该类型匹配。
+	 * <p>此版本的{@code beanNamesForTypeIncludingAncestors}自动包含原型和FactoryBeans。
+	 *
+	 *
 	 * @param lbf the bean factory
 	 * @param type the type that beans must match (as a {@code Class})
 	 * @return the array of matching bean names, or an empty array if none
@@ -193,11 +196,13 @@ public abstract class BeanFactoryUtils {
 	 * will be matched against the type. If "allowEagerInit" is not set,
 	 * only raw FactoryBeans will be checked (which doesn't require initialization
 	 * of each FactoryBean).
+	 *
 	 * 获取给定类型的所有bean名称，包括在祖先工厂中定义的那些名称。 如果重写了bean定义，
 	 * 将返回唯一名称。如果设置了“allowEagerInit”标志，那么会考虑由FactoryBeans创建的对象，
 	 * 这意味着FactoryBeans将被初始化。 如果FactoryBean创建的对象不匹配，则原始FactoryBean本身将与该类型匹配。
 	 * 如果未设置“allowEagerInit”，则只会检查原始FactoryBeans（不需要初始化每个FactoryBean）。
 	 * @param lbf the bean factory
+	 *
 	 * @param includeNonSingletons whether to include prototype or scoped beans too
 	 * or just singletons (also applies to FactoryBeans)
 	 * @param allowEagerInit whether to initialize <i>lazy-init singletons</i> and

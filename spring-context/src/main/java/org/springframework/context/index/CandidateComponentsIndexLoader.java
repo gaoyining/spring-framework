@@ -16,6 +16,14 @@
 
 package org.springframework.context.index;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.core.SpringProperties;
+import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.lang.Nullable;
+import org.springframework.util.ConcurrentReferenceHashMap;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,15 +31,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.springframework.core.SpringProperties;
-import org.springframework.core.io.UrlResource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.lang.Nullable;
-import org.springframework.util.ConcurrentReferenceHashMap;
 
 /**
  * Candidate components index loading mechanism for internal use within the framework.
@@ -71,6 +70,10 @@ public class CandidateComponentsIndexLoader {
 	 * Load and instantiate the {@link CandidateComponentsIndex} from
 	 * {@value #COMPONENTS_RESOURCE_LOCATION}, using the given class loader. If no
 	 * index is available, return {@code null}.
+	 *
+	 * 使用给定的类加载器从{@value #COMPONENTS_RESOURCE_LOCATION}加载并实例化{@link CandidateComponentsIndex}。
+	 * 如果没有可用的索引，请返回{@code null}。
+	 *
 	 * @param classLoader the ClassLoader to use for loading (can be {@code null} to use the default)
 	 * @return the index to use or {@code null} if no index was found
 	 * @throws IllegalArgumentException if any module index cannot
@@ -85,6 +88,11 @@ public class CandidateComponentsIndexLoader {
 		return cache.computeIfAbsent(classLoaderToUse, CandidateComponentsIndexLoader::doLoadIndex);
 	}
 
+	/**
+	 * 条件组件索引
+	 * @param classLoader
+	 * @return
+	 */
 	@Nullable
 	private static CandidateComponentsIndex doLoadIndex(ClassLoader classLoader) {
 		if (shouldIgnoreIndex) {

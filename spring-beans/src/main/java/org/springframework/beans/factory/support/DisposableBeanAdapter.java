@@ -16,30 +16,21 @@
 
 package org.springframework.beans.factory.support;
 
-import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
 import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.ReflectionUtils;
-import org.springframework.util.StringUtils;
+import org.springframework.util.*;
+
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.security.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Adapter that implements the {@link DisposableBean} and {@link Runnable}
@@ -49,6 +40,13 @@ import org.springframework.util.StringUtils;
  * <li>the bean implementing DisposableBean itself;
  * <li>a custom destroy method specified on the bean definition.
  * </ul>
+ *
+ * 实现{@link DisposableBean}和{@link Runnable}接口的适配器在给定的bean实例上执行各种销毁步骤：
+ * <UL>
+ * <LI> DestructionAwareBeanPostProcessors;
+ * <li>实现DisposableBean本身的bean;
+ * <li>在bean定义中指定的自定义destroy方法。
+ * </ UL>
  *
  * @author Juergen Hoeller
  * @author Costin Leau
@@ -147,6 +145,8 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 		this.invokeDisposableBean = (this.bean instanceof DisposableBean);
 		this.nonPublicAccessAllowed = true;
 		this.acc = acc;
+		// -----------------关键方法---------------
+		// 过滤PostProcessors
 		this.beanPostProcessors = filterPostProcessors(postProcessors, bean);
 	}
 
@@ -207,6 +207,9 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 
 	/**
 	 * Search for all DestructionAwareBeanPostProcessors in the List.
+	 *
+	 * 在List中搜索所有DestructionAwareBeanPostProcessors。
+	 *
 	 * @param processors the List to search
 	 * @return the filtered List of DestructionAwareBeanPostProcessors
 	 */
@@ -219,6 +222,7 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 				if (processor instanceof DestructionAwareBeanPostProcessor) {
 					DestructionAwareBeanPostProcessor dabpp = (DestructionAwareBeanPostProcessor) processor;
 					if (dabpp.requiresDestruction(bean)) {
+						// 确定给定的b​​ean实例是否需要通过此后处理器进行销毁
 						filteredPostProcessors.add(dabpp);
 					}
 				}
@@ -253,6 +257,8 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 					}, acc);
 				}
 				else {
+					// -------------------关键方法--------------------
+					// 销毁
 					((DisposableBean) bean).destroy();
 				}
 			}
@@ -268,6 +274,7 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 		}
 
 		if (this.destroyMethod != null) {
+			// 销毁方法不为空
 			invokeCustomDestroyMethod(this.destroyMethod);
 		}
 		else if (this.destroyMethodName != null) {
@@ -307,6 +314,10 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 	 * <p>This implementation invokes a no-arg method if found, else checking
 	 * for a method with a single boolean argument (passing in "true",
 	 * assuming a "force" parameter), else logging an error.
+	 *
+	 * 在给定的bean上调用指定的自定义destroy方法。
+	 * <p>此实现在找到时调用no-arg方法，
+	 * 否则检查具有单个boolean参数的方法（传入“true”，假设为“force”参数），否则记录错误。
 	 */
 	private void invokeCustomDestroyMethod(final Method destroyMethod) {
 		Class<?>[] paramTypes = destroyMethod.getParameterTypes();

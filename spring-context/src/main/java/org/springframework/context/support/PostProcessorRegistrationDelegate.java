@@ -16,31 +16,19 @@
 
 package org.springframework.context.support;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor;
-import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.beans.factory.support.*;
 import org.springframework.core.OrderComparator;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 import org.springframework.lang.Nullable;
+
+import java.util.*;
 
 /**
  * Delegate for AbstractApplicationContext's post-processor handling.
@@ -87,7 +75,7 @@ class PostProcessorRegistrationDelegate {
 			// PriorityOrdered, Ordered, and the rest.
 
 			//不要在这里初始化FactoryBeans：我们需要离开所有普通的bean
-			//未初始化，让豆厂后处理器适用于他们！
+			//未初始化，让bean工程后处理器适用于他们！
 			//分开执行的BeanDefinitionRegistryPostProcessor
 			// PriorityOrdered，Ordered和其他。
 			List<BeanDefinitionRegistryPostProcessor> currentRegistryProcessors = new ArrayList<>();

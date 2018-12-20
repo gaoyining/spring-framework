@@ -94,6 +94,9 @@ public abstract class AbstractDetectingUrlHandlerMapping extends AbstractUrlHand
 
 	/**
 	 * Determine the URLs for the given handler bean.
+	 *
+	 * 确定给定处理程序bean的URL。
+	 *
 	 * @param beanName the name of the candidate bean
 	 * @return the URLs determined for the bean, or an empty array if none
 	 */

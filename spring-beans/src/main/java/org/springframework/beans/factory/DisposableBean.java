@@ -22,6 +22,8 @@ package org.springframework.beans.factory;
  * method if it disposes a cached singleton. An application context
  * is supposed to dispose all of its singletons on close.
  *
+ * 要在销毁时释放资源的bean实现的接口。 如果BeanFactory处理缓存的单例，则应该调用destroy方法。 应用程序上下文应该关闭所有单例。
+ *
  * <p>An alternative to implementing DisposableBean is specifying a custom
  * destroy-method, for example in an XML bean definition.
  * For a list of all bean lifecycle methods, see the

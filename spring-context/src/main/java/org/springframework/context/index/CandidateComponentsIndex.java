@@ -16,19 +16,21 @@
 
 package org.springframework.context.index;
 
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
 /**
  * Provide access to the candidates that are defined in {@code META-INF/spring.components}.
+ *
+ * 提供对{@code META-INF / spring.components}中定义的候选人的访问权限。
  *
  * <p>An arbitrary number of stereotypes can be registered (and queried) on the index: a
  * typical example is the fully qualified name of an annotation that flags the class for
