@@ -16,23 +16,16 @@
 
 package org.springframework.core.annotation;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.core.BridgeMethodResolver;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * General utility methods for finding annotations, meta-annotations, and
@@ -386,9 +379,12 @@ public class AnnotatedElementUtils {
 	@Nullable
 	public static <A extends Annotation> A getMergedAnnotation(AnnotatedElement element, Class<A> annotationType) {
 		// Shortcut: directly present on the element, with no merging needed?
+		// 快捷方式：直接出现在元素上，不需要合并？
 		if (!(element instanceof Class)) {
 			// Do not use this shortcut against a Class: Inherited annotations
 			// would get preferred over locally declared composed annotations.
+			//不要对Class使用此快捷方式：Inherited annotations
+			//将优先于本地声明的组合注释。
 			A annotation = element.getAnnotation(annotationType);
 			if (annotation != null) {
 				return AnnotationUtils.synthesizeAnnotation(annotation, element);
@@ -396,6 +392,7 @@ public class AnnotatedElementUtils {
 		}
 
 		// Exhaustive retrieval of merged annotation attributes...
+		// 详尽检索合并的注释属性......
 		AnnotationAttributes attributes = getMergedAnnotationAttributes(element, annotationType);
 		return (attributes != null ? AnnotationUtils.synthesizeAnnotation(attributes, annotationType, element) : null);
 	}
@@ -592,6 +589,17 @@ public class AnnotatedElementUtils {
 	 * annotations of the specified {@code annotationType} will be ignored.
 	 * <p>This method follows <em>find semantics</em> as described in the
 	 * {@linkplain AnnotatedElementUtils class-level javadoc}.
+	 *
+	 * 在提供的{@code元素}上方的注释层次结构<em>中找到指定{@code annotationType}的第一个注释，
+	 * 并将注释的属性与<em>匹配</ em>属性中的注释合并到较低的注释中 注释层次结构的级别。
+	 *   <p>注释层次结构中较低级别的属性会覆盖较高级别的同名属性，以及
+	 * 两者都完全支持{@link AliasFor @AliasFor}语义
+	 * 在单个注释内和注释层次结构内。
+	 *   <p>与{@link #getAllAnnotationAttributes}相比，此方法使用的搜索算法将在指定的第一个注释后停止搜索注释层次结构
+	 * 已找到{@code annotationType}。 因此，将忽略指定的{@code annotationType}的附加注释。
+	 *   <p>此方法遵循<em> find semantics </ em>，如{@linkplain AnnotatedElementUtils class-level javadoc}中所述。
+	 *
+	 *
 	 * @param element the annotated element
 	 * @param annotationType the annotation type to find
 	 * @param classValuesAsString whether to convert Class references into
@@ -662,6 +670,11 @@ public class AnnotatedElementUtils {
 	 * within a single annotation and within the annotation hierarchy.
 	 * <p>This method follows <em>find semantics</em> as described in the
 	 * {@linkplain AnnotatedElementUtils class-level javadoc}.
+	 *
+	 * 在注释层次结构<em>上面找到指定{@code annotationType}的第一个注释</ em>提供的{@code元素}，
+	 * 将注释的属性与<em>匹配的</ em>属性合并到较低的注释中 注释层次结构的级别，并将结果合成回指定的{@code annotationType}的注释。
+	 *   完全支持<p> {@ link AliasFor @AliasFor}语义，包括单个注释和注释层次结构。
+	 *   <p>此方法遵循<em> find semantics </ em>，如{@linkplain AnnotatedElementUtils class-level javadoc}中所述。
 	 * @param element the annotated element
 	 * @param annotationType the annotation type to find
 	 * @return the merged, synthesized {@code Annotation}, or {@code null} if not found
@@ -673,9 +686,12 @@ public class AnnotatedElementUtils {
 	@Nullable
 	public static <A extends Annotation> A findMergedAnnotation(AnnotatedElement element, Class<A> annotationType) {
 		// Shortcut: directly present on the element, with no merging needed?
+		// 快捷方式：直接出现在元素上，不需要合并？
 		if (!(element instanceof Class)) {
 			// Do not use this shortcut against a Class: Inherited annotations
 			// would get preferred over locally declared composed annotations.
+			// 不要对Class使用此快捷方式：Inherited annotations
+			// 将优先于本地声明的组合注释。
 			A annotation = element.getAnnotation(annotationType);
 			if (annotation != null) {
 				return AnnotationUtils.synthesizeAnnotation(annotation, element);
@@ -683,6 +699,7 @@ public class AnnotatedElementUtils {
 		}
 
 		// Exhaustive retrieval of merged annotation attributes...
+		// 详尽检索合并的注释属性......
 		AnnotationAttributes attributes = findMergedAnnotationAttributes(element, annotationType, false, false);
 		return (attributes != null ? AnnotationUtils.synthesizeAnnotation(attributes, annotationType, element) : null);
 	}
@@ -837,6 +854,11 @@ public class AnnotatedElementUtils {
 	 * have already been <em>visited</em>.
 	 * <p>The {@code metaDepth} parameter is explained in the
 	 * {@link Processor#process process()} method of the {@link Processor} API.
+	 *
+	 * 执行{@link #searchWithFindSemantics}方法的搜索算法，通过跟踪已经<em>访问</ em>的已注释元素来避免无限递归。
+	 *   <p> {@code metaDepth}参数在中解释
+	 *   {@link Processor} API的{@link Processor＃process process（）}方法。
+	 *
 	 * @param element the annotated element
 	 * @param annotationType the annotation type to find
 	 * @param annotationName the fully qualified class name of the annotation
@@ -857,6 +879,7 @@ public class AnnotatedElementUtils {
 		if (visited.add(element)) {
 			try {
 				// Start searching within locally declared annotations
+				// 开始在本地声明的注释中搜索
 				List<Annotation> declaredAnnotations = Arrays.asList(element.getDeclaredAnnotations());
 				T result = searchWithGetSemanticsInAnnotations(element, declaredAnnotations,
 						annotationType, annotationName, containerType, processor, visited, metaDepth);

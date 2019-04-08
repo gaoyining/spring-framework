@@ -16,14 +16,6 @@
 
 package org.springframework.web.server;
 
-import java.security.Principal;
-import java.time.Instant;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-import reactor.core.publisher.Mono;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.http.codec.multipart.Part;
@@ -32,11 +24,20 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
+import reactor.core.publisher.Mono;
+
+import java.security.Principal;
+import java.time.Instant;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Contract for an HTTP request-response interaction. Provides access to the HTTP
  * request and response and also exposes additional server-side processing
  * related properties and features such as request attributes.
+ *
+ * HTTP请求 - 响应交互的合同。提供对HTTP请求和响应的访问，还公开其他与服务器端处理相关的属性和功能，例如请求属性。 *
  *
  * @author Rossen Stoyanchev
  * @since 5.0

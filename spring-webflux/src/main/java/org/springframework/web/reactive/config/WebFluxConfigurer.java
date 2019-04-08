@@ -30,6 +30,8 @@ import org.springframework.web.reactive.result.method.annotation.ArgumentResolve
  * Defines callback methods to customize the configuration for WebFlux
  * applications enabled via {@link EnableWebFlux @EnableWebFlux}.
  *
+ * 定义回调方法以自定义通过{@link EnableWebFlux @EnableWebFlux}启用的WebFlux应用程序的配置。
+ *
  * <p>{@code @EnableWebFlux}-annotated configuration classes may implement
  * this interface to be called back and given a chance to customize the
  * default configuration. Consider implementing this interface and
@@ -44,8 +46,10 @@ import org.springframework.web.reactive.result.method.annotation.ArgumentResolve
 public interface WebFluxConfigurer {
 
 	/**
-	 * Configure how the content type requested for the response is resolved
-	 * when  handling reqests with annotated controllers.
+	 * Configure how the content type requested for the response is resolved when  handling reqests with annotated controllers.
+	 *
+	 * 配置在处理带注释控制器的请求时如何解析响应请求的内容类型。
+	 *
 	 * @param builder for configuring the resolvers to use
 	 */
 	default void configureContentTypeResolver(RequestedContentTypeResolverBuilder builder) {

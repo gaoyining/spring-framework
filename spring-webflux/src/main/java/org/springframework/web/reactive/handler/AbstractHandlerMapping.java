@@ -16,24 +16,19 @@
 
 package org.springframework.web.reactive.handler;
 
-import java.util.Map;
-
-import reactor.core.publisher.Mono;
-
 import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.CorsConfigurationSource;
-import org.springframework.web.cors.reactive.CorsProcessor;
-import org.springframework.web.cors.reactive.CorsUtils;
-import org.springframework.web.cors.reactive.DefaultCorsProcessor;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.reactive.*;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebHandler;
 import org.springframework.web.util.pattern.PathPatternParser;
+import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 /**
  * Abstract base class for {@link org.springframework.web.reactive.HandlerMapping}
@@ -67,7 +62,9 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport im
 	/**
 	 * Shortcut method for setting the same property on the underlying pattern
 	 * parser in use. For more details see:
-	 * <ul>
+	 *
+	 * 在正在使用的基础模式解析器上设置相同属性的快捷方法。有关更多详情，请参阅	 * <ul>
+	 *
 	 * <li>{@link #getPathPatternParser()} -- the underlying pattern parser
 	 * <li>{@link PathPatternParser#setCaseSensitive(boolean)} -- the case
 	 * sensitive slash option, including its default value.
@@ -144,6 +141,8 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport im
 
 	@Override
 	public Mono<Object> getHandler(ServerWebExchange exchange) {
+		// -------- 关键方法，子类实现 ---------
+		// 查找给定请求的处理程序
 		return getHandlerInternal(exchange).map(handler -> {
 			if (CorsUtils.isCorsRequest(exchange.getRequest())) {
 				CorsConfiguration configA = this.globalCorsConfigSource.getCorsConfiguration(exchange);
@@ -165,13 +164,23 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport im
 	 * the pre-flight request but for the expected actual request based on the URL
 	 * path, the HTTP methods from the "Access-Control-Request-Method" header, and
 	 * the headers from the "Access-Control-Request-Headers" header.
-	 * @param exchange current exchange
+	 *
+	*查找给定请求的处理程序，返回空{@code Mono}
+	*如果没有找到具体的。此方法由{@link #getHandler}调用。
+	* <p>在CORS飞行前请求中，此方法应返回不匹配的匹配项
+	*飞行前请求，但基于URL的预期实际请求
+	* path，来自“Access-Control-Request-Method”标头的HTTP方法，以及
+	*来自“Access-Control-Request-Headers”标头的标头。	 * @param exchange current exchange
+	 *
 	 * @return {@code Mono} for the matching handler, if any
 	 */
 	protected abstract Mono<?> getHandlerInternal(ServerWebExchange exchange);
 
 	/**
 	 * Retrieve the CORS configuration for the given handler.
+	 *
+	 * 检索给定处理程序的CORS配置。
+	 *
 	 * @param handler the handler to check (never {@code null})
 	 * @param exchange the current exchange
 	 * @return the CORS configuration for the handler, or {@code null} if none

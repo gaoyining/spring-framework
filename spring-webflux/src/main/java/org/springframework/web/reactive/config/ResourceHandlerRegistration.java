@@ -16,9 +16,6 @@
 
 package org.springframework.web.reactive.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.cache.Cache;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -27,8 +24,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.reactive.resource.ResourceWebHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Assist with creating and configuring a static resources handler.
+ *
+ * 协助创建和配置静态资源处理程序。
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -135,6 +137,8 @@ public class ResourceHandlerRegistration {
 
 	/**
 	 * Returns the URL path patterns for the resource handler.
+	 *
+	 * 返回资源处理程序的URL路径模式。
 	 */
 	protected String[] getPathPatterns() {
 		return this.pathPatterns;

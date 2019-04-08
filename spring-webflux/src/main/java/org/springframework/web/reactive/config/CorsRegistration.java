@@ -16,14 +16,15 @@
 
 package org.springframework.web.reactive.config;
 
+import org.springframework.web.cors.CorsConfiguration;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.springframework.web.cors.CorsConfiguration;
-
 /**
- * Assists with the creation of a {@link CorsConfiguration} instance for a given
- * URL path pattern.
+ * Assists with the creation of a {@link CorsConfiguration} instance for a given URL path pattern.
+ *
+ * 协助为给定的URL路径模式创建{@link CorsConfiguration}实例。
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
@@ -45,6 +46,9 @@ public class CorsRegistration {
 
 	/**
 	 * The list of allowed origins that be specific origins, e.g.
+	 *
+	 * 允许来源的列表是特定来源，例如
+	 *
 	 * {@code "http://domain1.com"}, or {@code "*"} for all origins.
 	 * <p>A matched origin is listed in the {@code Access-Control-Allow-Origin}
 	 * response header of preflight actual CORS requests.

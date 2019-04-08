@@ -16,18 +16,19 @@
 
 package org.springframework.web.reactive;
 
-import java.util.function.Function;
-
-import reactor.core.publisher.Mono;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
+import reactor.core.publisher.Mono;
+
+import java.util.function.Function;
 
 /**
  * Represent the result of the invocation of a handler or a handler method.
+ *
+ * 表示调用处理程序或处理程序方法的结果。
  *
  * @author Rossen Stoyanchev
  * @since 5.0

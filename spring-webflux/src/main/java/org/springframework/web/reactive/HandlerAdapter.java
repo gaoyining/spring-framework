@@ -16,15 +16,16 @@
 
 package org.springframework.web.reactive;
 
-import java.util.function.Function;
-
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import org.springframework.web.server.ServerWebExchange;
+import java.util.function.Function;
 
 /**
  * Contract that decouples the {@link DispatcherHandler} from the details of
  * invoking a handler and makes it possible to support any handler type.
+ *
+ * 将{@link DispatcherHandler}与调用处理程序的细节分离的契约，并且可以支持任何处理程序类型。
  *
  * @author Rossen Stoyanchev
  * @author Sebastien Deleuze

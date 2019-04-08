@@ -16,26 +16,29 @@
 
 package org.springframework.web.reactive.accept;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
+
+import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Builder for a composite {@link RequestedContentTypeResolver} that delegates
  * to other resolvers each implementing a different strategy to determine the
  * requested content type -- e.g. Accept header, query parameter, or other.
  *
+ *委托的复合{@link RequestedContentTypeResolver}的构建器
+ *其他解析器每个实施不同的策略来确定
+ *请求的内容类型 - 例如接受标头，查询参数或其他。
+ *
  * <p>Use builder methods to add resolvers in the desired order. For a given
  * request he first resolver to return a list that is not empty and does not
  * consist of just {@link MediaType#ALL}, will be used.
+ *
+ * <p>使用构建器方法以所需顺序添加解析器。对于给定的
+ *请求他首先解析器返回一个非空的列表而不是空的列表
+ *将仅使用{@link MediaType＃ALL}。
  *
  * <p>By default, if no resolvers are explicitly configured, the builder will
  * add {@link HeaderContentTypeResolver}.
@@ -85,6 +88,8 @@ public class RequestedContentTypeResolverBuilder {
 	/**
 	 * Build a {@link RequestedContentTypeResolver} that delegates to the list
 	 * of resolvers configured through this builder.
+	 *
+	 * 构建一个委托给列表的{@link RequestedContentTypeResolver} 通过此构建器配置的解析程序。
 	 */
 	public RequestedContentTypeResolver build() {
 
@@ -95,6 +100,8 @@ public class RequestedContentTypeResolverBuilder {
 
 		return exchange -> {
 			for (RequestedContentTypeResolver resolver : resolvers) {
+				// ------------- 关键方法 -----------
+
 				List<MediaType> mediaTypes = resolver.resolveMediaTypes(exchange);
 				if (mediaTypes.equals(RequestedContentTypeResolver.MEDIA_TYPE_ALL_LIST)) {
 					continue;

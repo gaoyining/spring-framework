@@ -16,15 +16,17 @@
 
 package org.springframework.web.reactive.accept;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.server.NotAcceptableStatusException;
 import org.springframework.web.server.ServerWebExchange;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Strategy to resolve the requested media types for a {@code ServerWebExchange}.
+ *
+ * 解决{@code ServerWebExchange}所请求的媒体类型的策略。
  *
  * <p>See {@link RequestedContentTypeResolverBuilder} to create a sequence of
  * strategies.

@@ -16,12 +16,6 @@
 
 package org.springframework.web.util.pattern;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.http.server.PathContainer;
 import org.springframework.http.server.PathContainer.Element;
 import org.springframework.http.server.PathContainer.Separator;
@@ -29,6 +23,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+
+import java.util.*;
 
 /**
  * Representation of a parsed path pattern. Includes a chain of path elements
@@ -112,6 +108,10 @@ public class PathPattern implements Comparable<PathPattern> {
 	/**
 	 * Score is used to quickly compare patterns. Different pattern components are given different
 	 * weights. A 'lower score' is more specific. Current weights:
+	 *
+	 *分数用于快速比较模式。不同的模式组件给出不同的
+	 *重量。 “得分较低”更具体。当前重量：
+	 *
 	 * <ul>
 	 * <li>Captured variables are worth 1
 	 * <li>Wildcard is worth 100
@@ -120,6 +120,7 @@ public class PathPattern implements Comparable<PathPattern> {
 	private int score;
 
 	/** Does the pattern end with {*...} */
+	/** 模式是否以{* ...}结尾 */
 	private boolean catchAll = false;
 
 
@@ -240,6 +241,9 @@ public class PathPattern implements Comparable<PathPattern> {
 
 	/**
 	 * Determine the pattern-mapped part for the given path.
+	 *
+	 * 确定给定路径的模式映射部分。
+	 *
 	 * <p>For example: <ul>
 	 * <li>'{@code /docs/cvs/commit.html}' and '{@code /docs/cvs/commit.html} -> ''</li>
 	 * <li>'{@code /docs/*}' and '{@code /docs/cvs/commit}' -> '{@code cvs/commit}'</li>
@@ -263,6 +267,7 @@ public class PathPattern implements Comparable<PathPattern> {
 
 		int startIndex = 0;
 		// Find first path element that is not a separator or a literal (i.e. the first pattern based element)
+		// 查找不是分隔符或文字的第一个路径元素（即第一个基于模式的元素）
 		PathElement elem = head;
 		while (elem != null) {
 			if (elem.getWildcardCount() != 0 || elem.getCaptureCount() != 0) {
@@ -277,12 +282,14 @@ public class PathPattern implements Comparable<PathPattern> {
 		}
 		
 		// Skip leading separators that would be in the result
+		// 跳过结果中的前导分隔符
 		while (startIndex < pathElementsCount && (pathElements.get(startIndex) instanceof Separator)) {
 			startIndex++;
 		}
 		
 		int endIndex = pathElements.size();
 		// Skip trailing separators that would be in the result
+		// 跳过结果中的尾随分隔符
 		while (endIndex > 0 && (pathElements.get(endIndex - 1) instanceof Separator)) {
 			endIndex--;
 		}
@@ -298,6 +305,7 @@ public class PathPattern implements Comparable<PathPattern> {
 		PathContainer resultPath = null;
 		if (multipleAdjacentSeparators) {
 			// Need to rebuild the path without the duplicate adjacent separators
+			// 需要在没有重复的相邻分隔符的情况下重建路径
 			StringBuilder buf = new StringBuilder();
 			int i = startIndex;
 			while (i < endIndex) {
@@ -324,7 +332,11 @@ public class PathPattern implements Comparable<PathPattern> {
 	 * Compare this pattern with a supplied pattern: return -1,0,+1 if this pattern
 	 * is more specific, the same or less specific than the supplied pattern.
 	 * The aim is to sort more specific patterns first.
-	 */
+	 *
+	*将此模式与提供的模式进行比较：如果此模式，则返回-1,0，+ 1
+	*比提供的模式更具体，相同或更不具体。
+	*目的是首先对更具体的模式进行排序。
+	 * */
 	@Override
 	public int compareTo(@Nullable PathPattern otherPattern) {
 		int result = SPECIFICITY_COMPARATOR.compare(this, otherPattern);
@@ -673,7 +685,9 @@ public class PathPattern implements Comparable<PathPattern> {
 
 	/**
 	 * Comparator that sorts patterns by specificity as follows:
-	 * <ol>
+	 *
+	 * 比较器按特异性对模式进行排序，如下所示：
+	 *
 	 * <li>Null instances are last.
 	 * <li>Catch-all patterns are last.
 	 * <li>If both patterns are catch-all, consider the length (longer wins).

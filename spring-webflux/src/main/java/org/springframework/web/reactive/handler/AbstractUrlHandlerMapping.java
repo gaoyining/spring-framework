@@ -16,12 +16,6 @@
 
 package org.springframework.web.reactive.handler;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import reactor.core.publisher.Mono;
-
 import org.springframework.beans.BeansException;
 import org.springframework.http.server.PathContainer;
 import org.springframework.lang.Nullable;
@@ -29,6 +23,11 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.util.pattern.PathPattern;
+import reactor.core.publisher.Mono;
+
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Abstract base class for URL-mapped
@@ -85,6 +84,8 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 		PathContainer lookupPath = exchange.getRequest().getPath().pathWithinApplication();
 		Object handler;
 		try {
+			// ---------- 关键方法 ----------
+			// 查找给定URL查找路径的处理程序实例。
 			handler = lookupHandler(lookupPath, exchange);
 		}
 		catch (Exception ex) {
@@ -106,7 +107,13 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 	 * <p>Supports direct matches, e.g. a registered "/test" matches "/test",
 	 * and various path pattern matches, e.g. a registered "/t*" matches
 	 * both "/test" and "/team". For details, see the PathPattern class.
-	 * @param lookupPath URL the handler is mapped to
+	 *
+	*查找给定URL查找路径的处理程序实例。
+	* <p>支持直接匹配，例如注册的“/ test”匹配“/ test”，
+	*和各种路径模式匹配，例如已注册的“/ t *”匹配
+	*“/ test”和“/ team”。有关详细信息，请参阅PathPattern类。
+
+	 * * @param lookupPath URL the handler is mapped to
 	 * @param exchange the current exchange
 	 * @return the associated handler instance, or {@code null} if not found
 	 * @see org.springframework.web.util.pattern.PathPattern
@@ -116,6 +123,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 		return this.handlerMap.entrySet().stream()
 				.filter(entry -> entry.getKey().matches(lookupPath))
 				.sorted((entry1, entry2) ->
+						// 进行排序
 						PathPattern.SPECIFICITY_COMPARATOR.compare(entry1.getKey(), entry2.getKey()))
 				.findFirst()
 				.map(entry -> {
@@ -123,7 +131,10 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 					if (logger.isDebugEnabled()) {
 						logger.debug("Matching pattern for request [" + lookupPath + "] is " + pattern);
 					}
+					// 用模式提取路径
 					PathContainer pathWithinMapping = pattern.extractPathWithinPattern(lookupPath);
+					// ----------- 关键方法 -------------
+					// 执行匹配
 					return handleMatch(entry.getValue(), pattern, pathWithinMapping, exchange);
 				})
 				.orElse(null);
@@ -133,7 +144,9 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 			ServerWebExchange exchange) {
 
 		// Bean name or resolved handler?
+		// Bean名称或已解析的处理程序
 		if (handler instanceof String) {
+			// 如果是String类型，查找bean
 			String handlerName = (String) handler;
 			handler = obtainApplicationContext().getBean(handlerName);
 		}
@@ -174,6 +187,9 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 
 	/**
 	 * Register the specified handler for the given URL path.
+	 *
+	 * 注册给定URL路径的指定处理程序。
+	 *
 	 * @param urlPath the URL the bean should be mapped to
 	 * @param handler the handler instance or handler bean name String
 	 * (a bean name will automatically be resolved into the corresponding handler bean)
@@ -186,6 +202,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 		Object resolvedHandler = handler;
 
 		// Parse path pattern
+		// 解析路径模式 , 预处理映射的路径，如果不以/开头就加上/
 		urlPath = prependLeadingSlash(urlPath);
 		PathPattern pattern = getPathPatternParser().parse(urlPath);
 		if (this.handlerMap.containsKey(pattern)) {
@@ -198,6 +215,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 		}
 
 		// Eagerly resolve handler if referencing singleton via name.
+		// 如果通过名称引用singleton，则急切地解析处理程序。
 		if (!this.lazyInitHandlers && handler instanceof String) {
 			String handlerName = (String) handler;
 			if (obtainApplicationContext().isSingleton(handlerName)) {

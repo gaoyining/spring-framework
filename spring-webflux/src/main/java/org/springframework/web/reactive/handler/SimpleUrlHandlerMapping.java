@@ -16,12 +16,12 @@
 
 package org.springframework.web.reactive.handler;
 
+import org.springframework.beans.BeansException;
+import org.springframework.util.CollectionUtils;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import org.springframework.beans.BeansException;
-import org.springframework.util.CollectionUtils;
 
 /**
  * Implementation of the {@link org.springframework.web.reactive.HandlerMapping}
@@ -104,6 +104,9 @@ public class SimpleUrlHandlerMapping extends AbstractUrlHandlerMapping {
 
 	/**
 	 * Register all handlers specified in the URL map for the corresponding paths.
+	 *
+	 * 注册URL映射中为相应路径指定的所有处理程序。
+	 *
 	 * @param urlMap Map with URL paths as keys and handler beans or bean names as values
 	 * @throws BeansException if a handler couldn't be registered
 	 * @throws IllegalStateException if there is a conflicting handler registered

@@ -16,12 +16,6 @@
 
 package org.springframework.web.reactive.config;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.ResourceLoader;
@@ -30,6 +24,8 @@ import org.springframework.web.reactive.handler.AbstractUrlHandlerMapping;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.reactive.resource.ResourceWebHandler;
 import org.springframework.web.server.WebHandler;
+
+import java.util.*;
 
 /**
  * Stores registrations of resource handlers for serving static resources such
@@ -109,8 +105,9 @@ public class ResourceHandlerRegistry {
 	}
 
 	/**
-	 * Return a handler mapping with the mapped resource handlers; or {@code null} in case
-	 * of no registrations.
+	 * Return a handler mapping with the mapped resource handlers; or {@code null} in case of no registrations.
+	 *
+     * 返回映射资源处理程序的处理程序映射;如果没有注册，则为{@code null}。
 	 */
 	@Nullable
 	protected AbstractUrlHandlerMapping getHandlerMapping() {

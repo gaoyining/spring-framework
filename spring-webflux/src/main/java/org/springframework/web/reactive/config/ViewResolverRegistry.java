@@ -16,10 +16,6 @@
 
 package org.springframework.web.reactive.config;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.ApplicationContext;
@@ -35,9 +31,14 @@ import org.springframework.web.reactive.result.view.freemarker.FreeMarkerViewRes
 import org.springframework.web.reactive.result.view.script.ScriptTemplateConfigurer;
 import org.springframework.web.reactive.result.view.script.ScriptTemplateViewResolver;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
- * Assist with the configuration of a chain of {@link ViewResolver}'s supporting
- * different template mechanisms.
+ * Assist with the configuration of a chain of {@link ViewResolver}'s supporting different template mechanisms.
+ *
+ * 协助配置{@link ViewResolver}链，支持不同的模板机制。
  *
  * <p>In addition, you can also configure {@link #defaultViews(View...)
  * defaultViews} for rendering according to the requested content type, e.g.

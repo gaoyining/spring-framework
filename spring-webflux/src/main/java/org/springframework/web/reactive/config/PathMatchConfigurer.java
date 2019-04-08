@@ -21,6 +21,8 @@ import org.springframework.lang.Nullable;
 /**
  * Assist with configuring {@code HandlerMapping}'s with path matching options.
  *
+ * 通过路径匹配选项协助配置{@code HandlerMapping}。
+ *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
  * @since 5.0

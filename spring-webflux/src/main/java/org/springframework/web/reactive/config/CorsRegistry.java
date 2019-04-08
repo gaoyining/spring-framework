@@ -16,16 +16,17 @@
 
 package org.springframework.web.reactive.config;
 
+import org.springframework.web.cors.CorsConfiguration;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.cors.CorsConfiguration;
-
 /**
- * Assists with the registration of global, URL pattern based
- * {@link CorsConfiguration} mappings.
+ * Assists with the registration of global, URL pattern based {@link CorsConfiguration} mappings.
+ *
+ * 协助注册基于URL模式的全局{@link CorsConfiguration}映射。
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
@@ -38,6 +39,8 @@ public class CorsRegistry {
 
 	/**
 	 * Enable cross origin request handling for the specified path pattern.
+	 *
+	 * 为指定的路径模式启用跨源请求处理。
 	 *
 	 * <p>Exact path mapping URIs (such as {@code "/admin"}) are supported as
 	 * well as Ant-style path patterns (such as {@code "/admin/**"}).

@@ -16,13 +16,13 @@
 
 package org.springframework.web.util.pattern;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.PatternSyntaxException;
-
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.util.pattern.PatternParseException.PatternMessage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Parser for URI template patterns. It breaks the path pattern into a number of
@@ -90,6 +90,8 @@ class InternalPathPatternParser {
 
 	/**
 	 * Package private delegate for {@link PathPatternParser#parse(String)}.
+	 *
+	 * 为{@link PathPatternParser #parse（String）}打包私有委托。
 	 */
 	public PathPattern parse(String pathPattern) throws PatternParseException {
 		Assert.notNull(pathPattern, "Path pattern must not be null");

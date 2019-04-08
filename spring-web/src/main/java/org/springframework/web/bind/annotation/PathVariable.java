@@ -29,6 +29,8 @@ import org.springframework.core.annotation.AliasFor;
  * variable. Supported for {@link RequestMapping} annotated handler methods in Servlet
  * environments.
  *
+ * 注释，指示方法参数应绑定到URI模板变量。 支持Servlet环境中的{@link RequestMapping}带注释的处理程序方法。
+ *
  * <p>If the method parameter is {@link java.util.Map Map&lt;String, String&gt;} or
  * {@link org.springframework.util.MultiValueMap MultiValueMap&lt;String, String&gt;}
  * then the map is populated with all path variable names and values.

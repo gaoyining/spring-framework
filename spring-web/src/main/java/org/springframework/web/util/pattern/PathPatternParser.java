@@ -17,8 +17,9 @@
 package org.springframework.web.util.pattern;
 
 /**
- * Parser for URI path patterns producing {@link PathPattern} instances that can
- * then be matched to requests.
+ * Parser for URI path patterns producing {@link PathPattern} instances that can then be matched to requests.
+ *
+ * 解析URI路径模式，生成{@link PathPattern}实例，然后可以匹配请求。
  *
  * <p>The {@link PathPatternParser} and {@link PathPattern} are specifically
  * designed for use with HTTP URL paths in web applications where a large number

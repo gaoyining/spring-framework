@@ -16,16 +16,8 @@
 
 package org.springframework.web.reactive;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -33,15 +25,26 @@ import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.lang.Nullable;
-import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebHandler;
+import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Central dispatcher for HTTP request handlers/controllers. Dispatches to
  * registered handlers for processing a request, providing convenient mapping
  * facilities.
+ *
+ * HTTP请求处理程序/控制器的中央调度程序。派遣到
+ * 注册处理程序，用于处理请求，提供方便的映射
+ * 设施。
  *
  * <p>{@code DispatcherHandler} discovers the delegate components it needs from
  * Spring configuration. It detects the following in the application context:
@@ -118,6 +121,7 @@ public class DispatcherHandler implements WebHandler, ApplicationContextAware {
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
+		// ----------------- 初始化方法 ---------------
 		initStrategies(applicationContext);
 	}
 
@@ -157,7 +161,11 @@ public class DispatcherHandler implements WebHandler, ApplicationContextAware {
 				.concatMap(mapping -> mapping.getHandler(exchange))
 				.next()
 				.switchIfEmpty(Mono.error(HANDLER_NOT_FOUND_EXCEPTION))
+				// ---------- 关键方法 ----------
+				// 执行handler
 				.flatMap(handler -> invokeHandler(exchange, handler))
+				// ---------- 关键方法 ----------
+				// 处理结果
 				.flatMap(result -> handleResult(exchange, result));
 	}
 

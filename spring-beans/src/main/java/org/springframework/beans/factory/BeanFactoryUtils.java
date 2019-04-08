@@ -245,6 +245,13 @@ public abstract class BeanFactoryUtils {
 	 * hiding corresponding beans in ancestor factories.</b> This feature allows for
 	 * 'replacing' beans by explicitly choosing the same bean name in a child factory;
 	 * the bean in the ancestor factory won't be visible then, not even for by-type lookups.
+	 *
+	 * 如果当前bean工厂是HierarchicalBeanFactory，则返回给定类型或子类型的所有bean，同时拾取在祖先bean工厂中定义的bean。
+	 *   返回的Map将只包含此类型的bean。
+	 * <p>考虑FactoryBeans创建的对象，这意味着FactoryBeans将被初始化。 如果FactoryBean创建的对象不匹配，则原始FactoryBean本身将与该类型匹配。
+	 * <p> <b>注意：同名的豆将优先于“最低”工厂级别，
+	 * 即这些豆子将从他们被发现的最低工厂返回，
+	 *   在祖先工厂中隐藏相应的bean。</ b>此功能允许通过在子工厂中明确选择相同的bean名称来“替换”bean; 然后，祖先工厂中的bean将不可见，甚至不能用于类型查找。
 	 * @param lbf the bean factory
 	 * @param type type of bean to match
 	 * @return the Map of matching bean instances, or an empty Map if none

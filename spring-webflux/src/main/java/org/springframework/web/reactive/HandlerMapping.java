@@ -24,6 +24,8 @@ import org.springframework.web.server.ServerWebExchange;
  * Interface to be implemented by objects that define a mapping between
  * requests and handler objects.
  *
+ * 由定义请求和处理程序对象之间的映射的对象实现的接口。
+ *
  * @author Rossen Stoyanchev
  * @author Sebastien Deleuze
  * @since 5.0
@@ -33,12 +35,16 @@ public interface HandlerMapping {
 	/**
 	 * Name of the {@link ServerWebExchange#getAttributes() attribute} that
 	 * contains the mapped handler for the best matching pattern.
+	 *
+	 * {@link ServerWebExchange＃getAttributes（）属性的名称，其中包含最佳匹配模式的映射处理程序。
 	 */
 	String BEST_MATCHING_HANDLER_ATTRIBUTE = HandlerMapping.class.getName() + ".bestMatchingHandler";
 
 	/**
 	 * Name of the {@link ServerWebExchange#getAttributes() attribute} that
 	 * contains the best matching pattern within the handler mapping.
+	 *
+	 * {@link ServerWebExchange＃getAttributes（）属性的名称，其中包含处理程序映射中的最佳匹配模式。
 	 */
 	String BEST_MATCHING_PATTERN_ATTRIBUTE = HandlerMapping.class.getName() + ".bestMatchingPattern";
 

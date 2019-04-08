@@ -321,6 +321,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 		}
 		else {
 			//---------------------关键方法----------------
+			// 扫描出符合的BeanDefinition
 			return scanCandidateComponents(basePackage);
 		}
 	}
