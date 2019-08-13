@@ -23,8 +23,8 @@ import org.springframework.web.reactive.BindingContext;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Strategy to resolve the argument value for a method parameter in the context
- * of the current HTTP request.
+ * Strategy to resolve the argument value for a method parameter in the context of the current HTTP request.
+ * 在当前HTTP请求的上下文中解析方法参数的参数值的策略。
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -33,6 +33,7 @@ public interface HandlerMethodArgumentResolver {
 
 	/**
 	 * Whether this resolver supports the given method parameter.
+	 * 此解析程序是否支持给定的方法参数。
 	 * @param parameter the method parameter
 	 */
 	boolean supportsParameter(MethodParameter parameter);

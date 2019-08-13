@@ -53,6 +53,7 @@ public class SpelParserConfiguration {
 
 	/**
 	 * Create a new {@code SpelParserConfiguration} instance with default settings.
+	 * 使用默认设置创建新的{@code SpelParserConfiguration}实例。
 	 */
 	public SpelParserConfiguration() {
 		this(null, null, false, false, Integer.MAX_VALUE);
@@ -60,6 +61,7 @@ public class SpelParserConfiguration {
 
 	/**
 	 * Create a new {@code SpelParserConfiguration} instance.
+	 * 创建一个新的{@code SpelParserConfiguration}实例。
 	 * @param compilerMode the compiler mode for the parser
 	 * @param compilerClassLoader the ClassLoader to use as the basis for expression compilation
 	 */
@@ -69,6 +71,7 @@ public class SpelParserConfiguration {
 
 	/**
 	 * Create a new {@code SpelParserConfiguration} instance.
+	 * 创建一个新的{@code SpelParserConfiguration}实例。
 	 * @param autoGrowNullReferences if null references should automatically grow
 	 * @param autoGrowCollections if collections should automatically grow
 	 * @see #SpelParserConfiguration(boolean, boolean, int)

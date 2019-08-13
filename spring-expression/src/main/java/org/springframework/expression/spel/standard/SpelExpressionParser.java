@@ -25,6 +25,7 @@ import org.springframework.util.Assert;
 
 /**
  * SpEL parser. Instances are reusable and thread-safe.
+ * Spel解析器。实例是可重用的和线程安全的。
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -37,6 +38,7 @@ public class SpelExpressionParser extends TemplateAwareExpressionParser {
 
 	/**
 	 * Create a parser with default settings.
+	 * 使用默认设置创建解析器。
 	 */
 	public SpelExpressionParser() {
 		this.configuration = new SpelParserConfiguration();
